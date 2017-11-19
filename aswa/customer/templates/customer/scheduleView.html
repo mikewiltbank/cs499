@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Appointment Information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'css/calendarStyle.css' %}" type = "text/css"/>
+    
+  <title>Appointment Scheduler</title>
+</head>
+<body>
+
+<div class="container">
+  <div class="alert alert-info alert-dismissable behindeverything" style="max-height: 700px; overflow-y:scroll;">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+      <div class="container alt-grid">
+      <h5 class="text-center">Variable Month</h5>
+      <div class="row">
+        <div class="col-3 no_padding">
+          <div class="row">
+            <div class="col no_padding">
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Sun</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="row">
+            <div class="col no_padding">
+              <div class="text-center">Mon</div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Tues</div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Wed</div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Thur</div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Fri</div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">Sat</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="-info" style="max-height: 400px; overflow-y:scroll;">
+        <div class="row">
+          <div class="col-3 no_padding">
+            <div class="row">
+              <div class="col no_padding">
+                <ul class="timeline">
+                  <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
+                  <!--{% for employee in object_list %}-->
+                    <li><span></span></li>
+                  <!--{% endfor %}-->
+                  <li><span>8:30</span></li>
+                  <li><span>9:00</span></li>
+                  <li><span>9:30</span></li>
+                  <li><span>10:00</span></li>
+                  <li><span>10:30</span></li>
+                  <li><span>11:00</span></li>
+                  <li><span>11:30</span></li>
+                  <li><span>12:00</span></li>
+                  <li><span>12:30</span></li>
+                  <li><span>13:00</span></li>
+                  <li><span>13:30</span></li>
+                  <li><span>14:00</span></li>
+                  <li><span>14:30</span></li>
+                  <li><span>15:00</span></li>
+                  <li><span>15:30</span></li>
+                  <li><span>16:00</span></li>
+                  <li><span>16:30</span></li>
+                  <li><span>17:00</span></li>
+                  <li><span>17:30</span></li>
+                  <li><span>18:00</span></li>
+                </ul>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <div class="appointment">
+                    <p>Michael Wiltbank</p>
+                  </div>
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-9">
+            <div class="row">
+              <div class="col no_padding">
+                <div class="text-center">
+                  <div class="unavailable">
+                    <p>Unavailable</p>
+                  </div>
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <div class="unavailable">
+                    <p>Unavailable</p>
+                  </div>
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col no_padding">
+                <div class="text-center">
+                  <table class="calendar_grid">
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offset-xl-5 offset-lg-4 offset-sm-3">
+        <a href="#" class="btn btn-info btn-primary">Schedule Appointment</a>
+      </div>
+    </div>
+  </div><!--/alert-->
+</div><!--/container-->
+
+  <script src="{% static 'js/modernizr.js' %}" type = "text/javascript"/>
+
+  <!--<script src="js/modernizr.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script>
+    if( !window.jQuery ) document.write('<script src="js/jquery-3.0.0.min.js"><\/script>');
+  </script>
+  <script src="{% static 'js/main.js' %}" type = "text/javascript"/>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
