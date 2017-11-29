@@ -2,5 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^start/$', views.start, name='Business Login'),
+    url(r'^login/$', views.login, name='Employee Login'),
+    url(r'^tools/$', views.tools, name='Tools'),
     ]

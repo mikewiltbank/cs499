@@ -40,6 +40,12 @@
 	height: 40px;
 }
 
+.fullGrid {
+	cursor: pointer;
+}
+
+/* Appointments */
+
 .unavailable {
 	border: solid 1px;
 	border-radius: 10px;
@@ -50,6 +56,7 @@
 	z-index: 1;
 	background-color: red;	
 	margin-top: 40px;
+	cursor: not-allowed;
 }
 .unavailable p {
     display: inline-block;
@@ -72,4 +79,11 @@
     display: inline-block;
     vertical-align: middle;
     color: white;
+}
+
+/* Alerts */
+.closer {
+	float:right;
+	font-size: 25px;
+	cursor:pointer;
 }

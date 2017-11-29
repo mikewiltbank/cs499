@@ -1,0 +1,127 @@
+{% extends "employee/base.html" %}
+
+{% block body %}
+<div class="row">
+  <div class="offset-lg-2 col-lg-8" id="createnew" style="display:none;">
+    <div class="alert alert-info">
+      <h3 class="closer">&times;</h3>
+      <h3 class="text-center">Enter New Business Info</h3>
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="usr">Name:</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="usr" placeholder="Enter Unique Business Name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="email">Email:</label>
+          <div class="col-lg-10">
+            <input type="email" class="form-control" id="email" placeholder="Optional">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="pwd">Password:</label>
+          <div class="col-lg-10"> 
+            <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-4 col-4">
+            <button type="button" class="btn btn-info btn-lg btn-block">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div><!--/alert-->
+  </div>
+</div>
+
+<!-- Appointment Info Modal -->
+<div class="modal fade" id="newBusiness">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Enter New Business Info</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form class="form-horizontal" method="POST">
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="businessName">Name:</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="businessName" placeholder="Enter Unique Business Name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="email">Email:</label>
+          <div class="col-lg-10">
+            <input type="email" class="form-control" id="email" placeholder="Optional">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2" for="business_pwd">Password:</label>
+          <div class="col-lg-10"> 
+            <input type="password" class="form-control" id="business_pwd" placeholder="Enter password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-4 col-4">
+            <button type="submit" class="btn btn-info btn-lg btn-block" id="scheduleButton" data-dismiss="modal">Submit</button>
+          </div>
+        </div>
+      </form>
+      </div>   
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-lg-2">
+  </div>
+  <div class="col-lg-8">
+  <h2 class="text-center">Business Login</h2>
+    <form class="form-horizontal">
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2" for="usr">Name:</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="usr" placeholder="Enter Full Name">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2" for="pwd">Password:</label>
+        <div class="col-lg-10"> 
+          <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-4 col-4">
+          <button type="button" class="btn btn-info btn-lg btn-block" >Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+<div class="text-center">
+  <a href="#" data-toggle="modal" data-target="#newBusiness">Create New Business</a>
+</div>
+
+<script>
+$(document).ready(function(){
+    $("#newbutton").click(function(){
+        $("#createnew").toggle();
+    });
+
+    $('.closer').click(function() {
+        $('#createnew').hide();
+    });
+});
+
+</script>
+
+{% endblock %}

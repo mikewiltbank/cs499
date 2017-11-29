@@ -1,12 +1,22 @@
 from django.db import models
+from django.db.models.fields import CharField
 # from unittest.util import _MAX_LENGTH
 
+class Business(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    password = CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
+
 class Employee(models.Model):
-    name = models.CharField(max_length = 140, unique=True, primary_key=True)
-    password = models.CharField(max_length = 140)
+    business = models.ForeignKey(Business)
+    name = models.CharField(max_length = 128, unique=True, primary_key=True)
+    password = models.CharField(max_length = 128)
     
     def __str__(self):
         return self.name
+
 '''
 class AppointmentTypes(models.Model):
     employee = models.OneToOneField(
