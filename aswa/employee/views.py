@@ -1,22 +1,28 @@
-from django.shortcuts import render
-from employee.models import Business
-from django.http.response import HttpResponseRedirect
+#from employee.models import Employees
+#from django.http.response import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
 
-# Create your views here.
-def start(request):
-    if request.method == "POST" :
-        def register(request):
-            businessName = request.POST['businessName']
-            business_pwd = request.POST['business_pwd']
-            business_obj = Business(name = businessName, password = business_pwd)
-            business_obj.save()
-            
-            return HttpResponseRedirect('employee/employeelogin.html')
-    return render(request, 'employee/businesslogin.html')
+from employee.forms import NewEmployeeForm
 
-def login(request):
-    return render(request, 'employee/employeelogin.html')
-
+@login_required
 def tools(request):
     return render(request, 'employee/tools.html')
 
+def newEmployee(request):
+    if request.method == 'POST':
+        form = NewEmployeeForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.employees.full_name = form.cleaned_data.get('full_name')
+            user.employees.email = form.cleaned_data.get('email')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('Tools')
+    else:
+        form = NewEmployeeForm()
+    return render(request, 'employee/newemployee.html', {'form': form})

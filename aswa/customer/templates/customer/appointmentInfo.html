@@ -1,64 +1,438 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Appointment Information</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-</head>
-<body>
+{% extends "customer/base.html" %}
 
-<div class="container">
-  <div class="alert alert-info alert-dismissable">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-    <h2 class="text-center">Enter Appointment Information</h2>
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="usr">Full Name:</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="usr" placeholder="Enter Full Name">
+{% block body %}
+<div id="mainButton">
+  <h2 class="text-center">Beauty Salon</h2>
+  <div class="row">
+    <div class="offset-4 col-4">
+      <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#appointmentInfo">
+        Schedule Appointment
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Appointment Info Modal -->
+<div class="modal fade" id="appointmentInfo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Enter Appointment Information</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="usr">Name:</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="usr" placeholder="Enter Full Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="phone">Phone:</label>
+            <div class="col-lg-10">
+              <input type="tel" class="form-control" id="phone" placeholder="###-###-####">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="email">Email:</label>
+            <div class="col-lg-10">
+              <input type="email" class="form-control" id="email" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="pwd">Password:</label>
+            <div class="col-lg-10"> 
+              <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="notes">Notes:</label>
+            <div class="col-lg-10">
+              <textarea class="form-control" rows="5" id="notes"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="offset-4 col-4">
+              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" id="scheduleButton" data-dismiss="modal">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>   
+    </div>
+  </div>
+</div>
+
+<!-- Schedule View Modal -->
+<div class="modal fade" id="scheduleView">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Choose Appointment Time</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="container alt-grid">
+          <h5 class="text-center">Variable Month</h5>
+          <div class="row">
+            <div class="col-3 no_padding">
+              <div class="row">
+                <div class="col no_padding">
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Sun</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="row">
+                <div class="col no_padding">
+                  <div class="text-center">Mon</div>
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Tues</div>
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Wed</div>
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Thur</div>
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Fri</div>
+                </div>
+                <div class="col no_padding">
+                  <div class="text-center">Sat</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fullGrid" style="max-height: 400px; overflow-y:scroll;">
+            <div class="row">
+              <div class="col-3 no_padding">
+                <div class="row">
+                  <div class="col no_padding">
+                    <ul class="timeline">
+                      <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
+                      <!--{% for employee in object_list %}-->
+                        <li><span></span></li>
+                      <!--{% endfor %}-->
+                      <li><span>8:30</span></li>
+                      <li><span>9:00</span></li>
+                      <li><span>9:30</span></li>
+                      <li><span>10:00</span></li>
+                      <li><span>10:30</span></li>
+                      <li><span>11:00</span></li>
+                      <li><span>11:30</span></li>
+                      <li><span>12:00</span></li>
+                      <li><span>12:30</span></li>
+                      <li><span>13:00</span></li>
+                      <li><span>13:30</span></li>
+                      <li><span>14:00</span></li>
+                      <li><span>14:30</span></li>
+                      <li><span>15:00</span></li>
+                      <li><span>15:30</span></li>
+                      <li><span>16:00</span></li>
+                      <li><span>16:30</span></li>
+                      <li><span>17:00</span></li>
+                      <li><span>17:30</span></li>
+                      <li><span>18:00</span></li>
+                    </ul>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <div class="appointment">
+                        <p>Michael <br>Wiltbank</p>
+                      </div>
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9">
+                <div class="row">
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <div class="unavailable">
+                        <p>Unavailable</p>
+                      </div>
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <div class="unavailable">
+                        <p>Unavailable</p>
+                      </div>
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col no_padding">
+                    <div class="text-center">
+                      <table class="calendar_grid">
+                        {% for i in "x"|ljust:"20" %}
+                          <tr class="blank_row">
+                            <td></td>
+                          </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="offset-xl-5 offset-lg-4 offset-5">
+            <a href="#" class="btn btn-info btn-primary">Schedule Appointment</a>
+          </div>
+        </div>
+      </div>   
+    </div>
+  </div>
+</div>
+
+<div id="schedule" style="display:none;">
+  <div class="alert alert-info behindeverything" style="max-height: 700px; overflow-y:scroll;">
+    <h3 class="closer">&times;</h3>
+
+    <div class="container alt-grid">
+    <h5 class="text-center">Variable Month</h5>
+    <div class="row">
+      <div class="col-3 no_padding">
+        <div class="row">
+          <div class="col no_padding">
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Sun</div>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="phone">Phone Number:</label>
-        <div class="col-sm-10">
-          <input type="tel" class="form-control" id="phone" placeholder="###-###-####">
+      <div class="col-9">
+        <div class="row">
+          <div class="col no_padding">
+            <div class="text-center">Mon</div>
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Tues</div>
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Wed</div>
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Thur</div>
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Fri</div>
+          </div>
+          <div class="col no_padding">
+            <div class="text-center">Sat</div>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="email">Email:</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    <div class="fullGrid" style="max-height: 400px; overflow-y:scroll;">
+      <div class="row">
+        <div class="col-3 no_padding">
+          <div class="row">
+            <div class="col no_padding">
+              <ul class="timeline">
+                <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
+                <!--{% for employee in object_list %}-->
+                  <li><span></span></li>
+                <!--{% endfor %}-->
+                <li><span>8:30</span></li>
+                <li><span>9:00</span></li>
+                <li><span>9:30</span></li>
+                <li><span>10:00</span></li>
+                <li><span>10:30</span></li>
+                <li><span>11:00</span></li>
+                <li><span>11:30</span></li>
+                <li><span>12:00</span></li>
+                <li><span>12:30</span></li>
+                <li><span>13:00</span></li>
+                <li><span>13:30</span></li>
+                <li><span>14:00</span></li>
+                <li><span>14:30</span></li>
+                <li><span>15:00</span></li>
+                <li><span>15:30</span></li>
+                <li><span>16:00</span></li>
+                <li><span>16:30</span></li>
+                <li><span>17:00</span></li>
+                <li><span>17:30</span></li>
+                <li><span>18:00</span></li>
+              </ul>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <div class="appointment">
+                  <p>Michael <br>Wiltbank</p>
+                </div>
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="row">
+            <div class="col no_padding">
+              <div class="text-center">
+                <div class="unavailable">
+                  <p>Unavailable</p>
+                </div>
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <div class="unavailable">
+                  <p>Unavailable</p>
+                </div>
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <div class="col no_padding">
+              <div class="text-center">
+                <table class="calendar_grid">
+                  {% for i in "x"|ljust:"20" %}
+                    <tr class="blank_row">
+                      <td></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="pwd">Password:</label>
-        <div class="col-sm-10"> 
-          <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="notes">Notes:</label>
-        <div class="col-sm-10">
-          <textarea class="form-control" rows="5" id="notes"></textarea>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-sm-6">
-          <button type="button" class="btn btn-info btn-lg">Submit</button>
-        </div>
-      </div>
-    </form>
+    </div>
   </div><!--/alert-->
-</div><!--/container-->
+</div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-</body>
-</html>
+<script>
+$(document).ready(function(){
+    $("#scheduleButton").click(function(){
+        $("#schedule").show();
+        $("#mainButton").hide();
+    });
 
+    $('.closer').click(function() {
+        $('#schedule').hide();
+        $('#mainButton').show();
+    });
+});
 
+</script>
+
+{% endblock %}
