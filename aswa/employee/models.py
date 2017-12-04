@@ -27,11 +27,16 @@ def update_employees_profile(sender, instance, created, **kwargs):
     if created:
         Employees.objects.create(user=instance)
     instance.employees.save()
-'''
+    
+'''    
 class AppointmentTypes(models.Model):
-    id = models.ForeignKey(Employees.user)
-    name = models.TextField(max_length=200)
-    duration = models.TimeField()
+    employee = models.ForeignKey(Employees)
+    name = models.TextField(max_length=128)
+    duration = models.IntegerField()
+    
+    def __str__(self):
+        return self.name
+
 '''
 '''
     

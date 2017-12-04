@@ -50,36 +50,36 @@
 	<!-- Calendar View -->
 	<div class="col-lg-8 no_padding">
 	  <div class="container alt-grid">
-	  <h5 class="text-center">Variable Month</h5>
+	  <h4 class="text-center">{{ days.0|date:"F"}}</h4>
 	  <div class="row">
 	    <div class="col-3 no_padding">
 	      <div class="row">
 	        <div class="col no_padding">
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Sun</div>
+	          <div class="text-center">{{ days.0|date:"D d" }}</div>
 	        </div>
 	      </div>
 	    </div>
 	    <div class="col-9">
 	      <div class="row">
 	        <div class="col no_padding">
-	          <div class="text-center">Mon</div>
+	          <div class="text-center">{{ days.1|date:"D d" }}</div>
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Tues</div>
+	          <div class="text-center">{{ days.2|date:"D d" }}</div>
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Wed</div>
+	          <div class="text-center">{{ days.3|date:"D d" }}</div>
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Thur</div>
+	          <div class="text-center">{{ days.4|date:"D d" }}</div>
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Fri</div>
+	          <div class="text-center">{{ days.5|date:"D d" }}</div>
 	        </div>
 	        <div class="col no_padding">
-	          <div class="text-center">Sat</div>
+	          <div class="text-center">{{ days.6|date:"D d" }}</div>
 	        </div>
 	      </div>
 	    </div>
@@ -90,30 +90,16 @@
 	        <div class="row">
 	          <div class="col no_padding">
 	            <ul class="timeline">
+
 	              <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
 	              <!--{% for employee in object_list %}-->
 	                <li><span></span></li>
 	              <!--{% endfor %}-->
-	              <li><span>8:30</span></li>
-	              <li><span>9:00</span></li>
-	              <li><span>9:30</span></li>
-	              <li><span>10:00</span></li>
-	              <li><span>10:30</span></li>
-	              <li><span>11:00</span></li>
-	              <li><span>11:30</span></li>
-	              <li><span>12:00</span></li>
-	              <li><span>12:30</span></li>
-	              <li><span>13:00</span></li>
-	              <li><span>13:30</span></li>
-	              <li><span>14:00</span></li>
-	              <li><span>14:30</span></li>
-	              <li><span>15:00</span></li>
-	              <li><span>15:30</span></li>
-	              <li><span>16:00</span></li>
-	              <li><span>16:30</span></li>
-	              <li><span>17:00</span></li>
-	              <li><span>17:30</span></li>
-	              <li><span>18:00</span></li>
+	              {% for i in times%}
+		            <li>
+		              <td>{{ i|time:"g:i" }}</td>
+		            </tr>
+              	  {% endfor %}
 	            </ul>
 	          </div>
 	          <div class="col no_padding">
@@ -122,7 +108,7 @@
 	                <p>Michael <br>Wiltbank</p>
 	              </div>
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -140,7 +126,7 @@
 	                <p>Unavailable</p>
 	              </div>
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -154,7 +140,7 @@
 	                <p>Unavailable</p>
 	              </div>
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -165,7 +151,7 @@
 	          <div class="col no_padding">
 	            <div class="text-center">
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -176,7 +162,7 @@
 	          <div class="col no_padding">
 	            <div class="text-center">
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -187,7 +173,7 @@
 	          <div class="col no_padding">
 	            <div class="text-center">
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
@@ -198,7 +184,7 @@
 	          <div class="col no_padding">
 	            <div class="text-center">
 	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:"20" %}
+              		{% for i in "x"|ljust:grid %}
 		              	<tr class="blank_row">
 		                  <td></td>
 		                </tr>
