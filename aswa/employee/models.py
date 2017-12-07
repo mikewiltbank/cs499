@@ -28,7 +28,7 @@ def update_employees_profile(sender, instance, created, **kwargs):
         Employees.objects.create(user=instance)
     instance.employees.save()
     
-'''    
+ 
 class AppointmentTypes(models.Model):
     employee = models.ForeignKey(Employees)
     name = models.TextField(max_length=128)
@@ -37,9 +37,7 @@ class AppointmentTypes(models.Model):
     def __str__(self):
         return self.name
 
-'''
-'''
-    
+'''    
 class Practice(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)

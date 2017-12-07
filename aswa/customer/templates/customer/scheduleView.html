@@ -1,110 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Appointment Information</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+{% extends "customer/base.html" %}
+{% load widget_tweaks %}
 
-    {% load staticfiles %}
-  <link rel="stylesheet" href="{% static 'css/calendarStyle.css' %}" type = "text/css"/>
-    
-  <title>Appointment Scheduler</title>
-</head>
-<body>
+{% block body %}
+<!-- Appointment Info Modal -->
+<div id="typesSection">
+  <h4 class="text-center">Select an Appointment Type</h4>
+  {% for type in types %}
+    <div class="offset-lg-3 col-lg-6 offset-md-1 col-md-10 aTypes">
+      <input type="hidden" name="aDuration" value="{{ type.duration }}" />
+      <button type="button" class="btn btn-info btn-lg btn-block selectType">{{ type.name }}</button>
+    </div><br>
+  {% endfor %}
+</div>
 
-<div class="container">
-  <div class="alert alert-info alert-dismissable behindeverything" style="max-height: 700px; overflow-y:scroll;">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+
+<div id="calendarSection" style="display:none">
+  <h4 class="text-center">Select A Start Time</h4>
+
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <!-- Calendar View -->
+    <div class="col-lg-10 no_padding">
       <div class="container alt-grid">
-      <h5 class="text-center">Variable Month</h5>
+      <h2 class="text-center">{{ days.0|date:"F"}}</h2>
       <div class="row">
         <div class="col-3 no_padding">
           <div class="row">
             <div class="col no_padding">
             </div>
             <div class="col no_padding">
-              <div class="text-center">Sun</div>
+              <div class="text-center">{{ days.0|date:"D d" }}</div>
             </div>
           </div>
         </div>
         <div class="col-9">
           <div class="row">
             <div class="col no_padding">
-              <div class="text-center">Mon</div>
+              <div class="text-center">{{ days.1|date:"D d" }}</div>
             </div>
             <div class="col no_padding">
-              <div class="text-center">Tues</div>
+              <div class="text-center">{{ days.2|date:"D d" }}</div>
             </div>
             <div class="col no_padding">
-              <div class="text-center">Wed</div>
+              <div class="text-center">{{ days.3|date:"D d" }}</div>
             </div>
             <div class="col no_padding">
-              <div class="text-center">Thur</div>
+              <div class="text-center">{{ days.4|date:"D d" }}</div>
             </div>
             <div class="col no_padding">
-              <div class="text-center">Fri</div>
+              <div class="text-center">{{ days.5|date:"D d" }}</div>
             </div>
             <div class="col no_padding">
-              <div class="text-center">Sat</div>
+              <div class="text-center">{{ days.6|date:"D d" }}</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="-info" style="max-height: 400px; overflow-y:scroll;">
+      <div class="fullGrid" style="max-height: 500px; overflow-y:scroll;">
         <div class="row">
           <div class="col-3 no_padding">
             <div class="row">
               <div class="col no_padding">
                 <ul class="timeline">
-                  <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
-                  <!--{% for employee in object_list %}-->
-                    <li><span></span></li>
-                  <!--{% endfor %}-->
-                  <li><span>8:30</span></li>
-                  <li><span>9:00</span></li>
-                  <li><span>9:30</span></li>
-                  <li><span>10:00</span></li>
-                  <li><span>10:30</span></li>
-                  <li><span>11:00</span></li>
-                  <li><span>11:30</span></li>
-                  <li><span>12:00</span></li>
-                  <li><span>12:30</span></li>
-                  <li><span>13:00</span></li>
-                  <li><span>13:30</span></li>
-                  <li><span>14:00</span></li>
-                  <li><span>14:30</span></li>
-                  <li><span>15:00</span></li>
-                  <li><span>15:30</span></li>
-                  <li><span>16:00</span></li>
-                  <li><span>16:30</span></li>
-                  <li><span>17:00</span></li>
-                  <li><span>17:30</span></li>
-                  <li><span>18:00</span></li>
+                  <li style="height:29px;"></li>
+                  {% for i in times %}
+                    {% if forloop.first %}  
+                      <div id="startHour">
+                        <input type="hidden" name="start-hour" value="{{ i|time:'g' }}" />
+                        <input type="hidden" name="start-minute" value="{{ i|time:'i' }}" />
+                      </div>
+                    {% endif %}
+                  <li>
+                    <td>{{ i|time:"g:i" }}</td>
+                  </li>
+                  {% endfor %}
                 </ul>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
-                  <div class="appointment">
-                    <p>Michael <br>Wiltbank</p>
-                  </div>
+                  {% for x in sun %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.0|date:'Y' }}-{{ days.0|date:'m' }}-{{ days.0|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
@@ -114,135 +100,109 @@
             <div class="row">
               <div class="col no_padding">
                 <div class="text-center">
-                  <div class="unavailable">
-                    <p>Unavailable</p>
-                  </div>
+                  {% for x in mon %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.1|date:'Y' }}-{{ days.1|date:'m' }}-{{ days.1|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
-                  <div class="unavailable">
-                    <p>Unavailable</p>
-                  </div>
+                  {% for x in tue %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.2|date:'Y' }}-{{ days.2|date:'m' }}-{{ days.2|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
+                  {% for x in wed %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.3|date:'Y' }}-{{ days.3|date:'m' }}-{{ days.3|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
+                  {% for x in thur %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.4|date:'Y' }}-{{ days.4|date:'m' }}-{{ days.4|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
+                  {% for x in fri %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.5|date:'Y' }}-{{ days.5|date:'m' }}-{{ days.5|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
               <div class="col no_padding">
                 <div class="text-center">
+                  {% for x in sat %}
+                    <div class="unavailable" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+                      <p>Unavailable</p>
+                    </div>
+                  {% endfor %}
                   <table class="calendar_grid">
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
-                    <tr class="blank_row">
-                      <td></td>
-                    </tr>
+                    {% for i in "x"|ljust:grid %}
+                      <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
+                        <td></td>
+                        <input type="hidden" name="count" value="{{ forloop.counter }}" />
+                        <input type="hidden" name="date" value="{{ days.6|date:'Y' }}-{{ days.6|date:'m' }}-{{ days.6|date:'d' }}" />
+                      </tr>
+                    {% endfor %}
                   </table>
                 </div>
               </div>
@@ -250,29 +210,143 @@
           </div>
         </div>
       </div>
-      <div class="offset-xl-5 offset-lg-4 offset-sm-4">
-        <a href="#" class="btn btn-info btn-primary">Schedule Appointment</a>
       </div>
     </div>
-  </div><!--/alert-->
-</div><!--/container-->
+  </div> <!-- /row -->
+</div>
 
-  <script src="{% static 'js/modernizr.js' %}" type = "text/javascript"/>
+<div class="modal fade" id="confirmInfo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Confirm</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <strong>Start Time:</strong> <span id="appointmentTime"></span><br>
+        <strong>Date:</strong> <span id="appointmentDate"></span><br>
+        <strong>Start Iteration:</strong> <span id="appointmentStart"></span><br>
+        <strong>Duration:</strong> <span id="appointmentDuration"></span><br>
+      </div>
 
-  <!--<script src="js/modernizr.js"></script>-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-  <script>
-    if( !window.jQuery ) document.write('<script src="js/jquery-3.0.0.min.js"><\/script>');
-  </script>
-  <script src="{% static 'js/main.js' %}" type = "text/javascript"/>
+      <!-- Modal footer --> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="#">
+          <button type="button" class="btn btn-primary" id="finalSubmit">Save changes</button>
+        </a>
+      </div>  
+    </div>
+  </div>
+</div>
+<!-- Appointment Info Modal --
+<div class="modal fade" id="appointmentInfo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header --
+      <div class="modal-header">
+        <h4 class="modal-title">Enter Appointment Information</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body --
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="usr">Name:</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="usr" placeholder="Enter Full Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="phone">Phone:</label>
+            <div class="col-lg-10">
+              <input type="tel" class="form-control" id="phone" placeholder="###-###-####">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="email">Email:</label>
+            <div class="col-lg-10">
+              <input type="email" class="form-control" id="email" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="pwd">Password:</label>
+            <div class="col-lg-10"> 
+              <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="notes">Notes:</label>
+            <div class="col-lg-10">
+              <textarea class="form-control" rows="5" id="notes"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="offset-4 col-4">
+              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" id="scheduleButton" data-dismiss="modal">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>   
+    </div>
+  </div> 
+</div> -->
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
-</body>
-</html>
 
 
+<script>
+
+$(".aTypes").click(function() {
+  var appointmentDuration = $(this).children("input[name='aDuration']").val();
+  var phone = $(this).children("input[name='date']").val();
+
+  $("#appointmentDuration").html(appointmentDuration);
+
+  $("#calendarSection").show();
+  $("#typesSection").hide();
+});
+
+$(".newStart").click(function() {
+  //alert($(this).children("input[name='day']").val());
+  var iteration = $(this).children("input[name='count']").val();
+  var aDate = $(this).children("input[name='date']").val();
+  //var beginTime = $("#startHour").val();
+  var hour = $("#startHour").children("input[name='start-hour']").val();
+  var minute = $("#startHour").children("input[name='start-minute']").val();
+  adjust = parseInt(iteration);
+  hour = (hour - 1) + (adjust*.5);
+  thirty = adjust % 2;
+  if (thirty == 1) {
+    hour = hour + .5;
+    minute = 0;
+  }
+  else {
+    minute = 3;
+  }
+  var beginTime = hour +":"+minute+"0";
+  $("#appointmentTime").html(beginTime);
+  $("#appointmentStart").html(iteration);
+  $("#appointmentDate").html(aDate);
+});
+
+$("#finalSubmit").click(function() {
+  finalTime = $("#appointmentTime").text();
+  finalDate = $("#appointmentDate").text();
+  finalDuration = $("#appointmentDuration").text();
+  employee = 4
+  temp = parseInt(employee)
+  url = "{% url 'Appointment Info' id=id value=80 %}"
+  window.location = url;
+});
+
+</script>
+
+{% endblock %}

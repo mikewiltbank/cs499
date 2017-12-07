@@ -9,13 +9,13 @@
 	    </div>
 	    <div class="card-body">
 	      <p class="card-text">
-	        <strong>Name:</strong>Variable Name<br>
-	        <strong>Phone:</strong>Variable Phone<br>
-	        <strong>Email:</strong>Variable Email<br>
+	        <strong>Name:</strong> <span id="customerName"></span><br>
+	        <strong>Phone:</strong> <span id="customerPhone"></span><br>
+	        <strong>Email:</strong> <span id="customerEmail"></span><br>
 	      </p>
 	      <p>
 	        <div class="text-center"><strong><u>Notes</u></strong></div>
-	        Variable Notes
+	        <span id="customerDetails"></span>
 	      </p>
 	      <div class="offset-xl-3 offset-lg-2 offset-4">
 	      	<button type="button" class="btn btn-info btn-primary" data-toggle="modal" data-target="#confirmDelete">
@@ -86,115 +86,165 @@
 	  </div>
 	  <div class="fullGrid" style="max-height: 400px; overflow-y:scroll;">
 	    <div class="row">
-	      <div class="col-3 no_padding">
-	        <div class="row">
-	          <div class="col no_padding">
-	            <ul class="timeline">
-
-	              <li style="height:29px;"><span><!--{{ employee.starttime }}--> </span></li>
-	              <!--{% for employee in object_list %}-->
-	                <li><span></span></li>
-	              <!--{% endfor %}-->
-	              {% for i in times%}
-		            <li>
-		              <td>{{ i|time:"g:i" }}</td>
-		            </tr>
-              	  {% endfor %}
-	            </ul>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <div class="appointment">
-	                <p>Michael <br>Wiltbank</p>
+	        <div class="col-3 no_padding">
+	          <div class="row">
+	            <div class="col no_padding">
+	              <ul class="timeline">
+	                <li style="height:29px;"></li>
+	                {% for i in times%}
+	                <li>
+	                  <td>{{ i|time:"g:i" }}</td>
+	                </li>
+	                {% endfor %}
+	              </ul>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in sun %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
 	              </div>
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="col-9">
+	          <div class="row">
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in mon %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in tue %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in wed %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in thur %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in fri %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
+	            </div>
+	            <div class="col no_padding">
+	              <div class="text-center">
+	                {% for x in sat %}
+	                  <div class="appointment" style="margin-top: {{ x.aBegin }}px; height: {{  x.duration }}px;">
+	                    <p>{{x.name}}</p>
+	       			    <input type="hidden" name="data-name" value="{{ x.name }}" />
+	       			    <input type="hidden" name="data-phone" value="{{ x.phone }}" />
+	       			    <input type="hidden" name="data-email" value="{{ x.email }}" />
+	       			    <input type="hidden" name="data-details" value="{{ x.details }}" />
+	                  </div>
+	                {% endfor %}
+	                <table class="calendar_grid">
+	                  {% for i in "x"|ljust:grid %}
+	                    <tr class="blank_row">
+	                      <td></td>
+	                    </tr>
+	                  {% endfor %}
+	                </table>
+	              </div>
 	            </div>
 	          </div>
 	        </div>
 	      </div>
-	      <div class="col-9">
-	        <div class="row">
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <div class="unavailable">
-	                <p>Unavailable</p>
-	              </div>
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <div class="unavailable">
-	                <p>Unavailable</p>
-	              </div>
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	          <div class="col no_padding">
-	            <div class="text-center">
-	              <table class="calendar_grid">
-              		{% for i in "x"|ljust:grid %}
-		              	<tr class="blank_row">
-		                  <td></td>
-		                </tr>
-              		{% endfor %}
-	              </table>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
 	  </div>
 	  <div class="offset-xl-5 offset-lg-4 offset-5">
 	    <a href="#" class="btn btn-info btn-primary">Schedule Appointment</a>
@@ -399,6 +449,21 @@
 </div><!-- /row -->
 
 <script>
+
+$(".appointment").click(function() {
+	//alert($('input[name=data-name]').val());
+    var name = $(this).children("input[name='data-name']").val();
+    var phone = $(this).children("input[name='data-phone']").val();
+    var email = $(this).children("input[name='data-email']").val();
+    var details = $(this).children("input[name='data-details']").val();
+
+    $("#customerName").html(name);
+    $("#customerPhone").html(phone);
+    $("#customerEmail").html(email);
+    $("#customerDetails").html(details);
+
+});
+
 $(document).ready(function(){
     $("#newbutton").click(function(){
         $("#delete").toggle();

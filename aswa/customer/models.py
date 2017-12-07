@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms import ModelForm
 # Create your models here.
+
 class Appointments(models.Model):
     employee = models.ForeignKey(Employees)
     name = models.CharField(max_length=128)
@@ -16,6 +17,7 @@ class Appointments(models.Model):
     date = models.DateField()
     starttime = models.TimeField()
     endtime = models.TimeField()
+    duration = models.IntegerField()
     
     def __str__(self):
         return self.name

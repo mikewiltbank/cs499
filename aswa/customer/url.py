@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.start, name='Start'),
-    url(r'^getinfo/(?P<id>\d+)/$', views.appointmentInfo, name='Appointment Info'),
-    url(r'^calendar/', views.scheduleView, name='Calendar View'),
+    url(r'^calendar/(?P<id>\d+)/$', views.calendarView, name='Calendar View'),
+    url(r'^getinfo/(?P<id>\d+)/(?P<value>\d+)$', views.appointmentInfo, name='Appointment Info'),
     ]

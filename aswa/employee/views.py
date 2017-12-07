@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
+from customer.models import Appointments
 
 from employee.forms import NewEmployeeForm
-
 
 def newEmployee(request):
     if request.method == 'POST':
@@ -45,5 +45,66 @@ def tools(request):
         grid += 1
         b = timedelta(hours=0, minutes=30)
         newtime += b
-        times.append(newtime.time())        
-    return render(request, 'employee/tools.html', {'days': days, 'times':times, 'grid':grid})
+        times.append(newtime.time())
+    eid = request.user.employees.id
+    #appointments = list(Appointments.objects.filter(employee_id=eid))
+    appointments = Appointments.objects.filter(employee_id=eid)
+    sun = []
+    mon = []
+    tue = []
+    wed = []
+    thur = []
+    fri = []
+    sat = []
+    for appointment in appointments:
+        if appointment.date.strftime('%Y-%m-%d') == days[0].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            sun.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[1].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            mon.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[2].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            tue.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[3].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            wed.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[4].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            thur.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[5].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            fri.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[6].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            sat.append(appointment)        
+    return render(request, 'employee/tools.html', {'days': days, 'times':times, 'grid':grid,'sun':sun, 'mon':mon, 
+                   'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
