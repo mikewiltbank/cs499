@@ -3,6 +3,10 @@
 {% block body %}
 {% load widget_tweaks %}
 
+{% for info in appointment_time %}
+  {{ info }}
+  {{ info.date }}
+{% endfor %}
 <div class="row">
   <div class="col-lg-2">
   </div>

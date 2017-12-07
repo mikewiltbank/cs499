@@ -268,18 +268,24 @@
 	          </tr>
 	        </thead>
 	        <tbody>
-	          <tr>
-	            <td>Women's Haircut</td>
-	            <td>1 Hour</td>
-	          </tr>
-	          <tr>
-	            <td>Men's Haircut</td>
-	            <td>45 Minutes</td>
-	          </tr>
-	          <tr>
-	            <td>Hair Coloring and Haircut</td>
-	            <td>2 Hours</td>
-	          </tr>
+	          {% for type in types %}
+	            <tr>
+	              <td>{{ type.name }}</td>
+	            {% if type.duration == 40 %}  
+	              <td>30 Minutes</td>
+	            {% elif type.duration == 80 %}  
+	              <td>1 Hour</td>
+	            {% elif type.duration == 120 %}   
+	              <td>1 Hour 30 Min</td>
+	            {% elif type.duration == 160 %}   
+	              <td>2 Hours</td>
+	            {% elif type.duration == 200 %}   
+	              <td>2 Hours 30 Min</td>
+	            {% elif type.duration == 240 %}   
+	              <td>3 Hours</td>
+	            {% endif %}
+	            </tr>
+	          {% endfor %}
 	        </tbody>
 	      </table>
 	      <button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#apointmentTypes">

@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from customer.models import Appointments
+from employee.models import AppointmentTypes
 
 from employee.forms import NewEmployeeForm
 
@@ -49,6 +50,7 @@ def tools(request):
     eid = request.user.employees.id
     #appointments = list(Appointments.objects.filter(employee_id=eid))
     appointments = Appointments.objects.filter(employee_id=eid)
+    types = AppointmentTypes.objects.filter(employee_id=eid)
     sun = []
     mon = []
     tue = []
@@ -106,5 +108,5 @@ def tools(request):
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
             sat.append(appointment)        
-    return render(request, 'employee/tools.html', {'days': days, 'times':times, 'grid':grid,'sun':sun, 'mon':mon, 
-                   'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
+    return render(request, 'employee/tools.html', {'types':types, 'days': days, 'times':times, 'grid':grid,'sun':sun, 
+                                                   'mon':mon, 'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})

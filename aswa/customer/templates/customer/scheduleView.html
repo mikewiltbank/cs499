@@ -8,7 +8,22 @@
   {% for type in types %}
     <div class="offset-lg-3 col-lg-6 offset-md-1 col-md-10 aTypes">
       <input type="hidden" name="aDuration" value="{{ type.duration }}" />
-      <button type="button" class="btn btn-info btn-lg btn-block selectType">{{ type.name }}</button>
+      <button type="button" class="btn btn-info btn-lg btn-block selectType">
+        {{ type.name }}
+          {% if type.duration == 40 %}  
+            (30 Minutes)
+          {% elif type.duration == 80 %}  
+            (1 Hour)
+          {% elif type.duration == 120 %}   
+            (1 Hour 30 Min)
+          {% elif type.duration == 160 %}   
+            (2 Hours)
+          {% elif type.duration == 200 %}   
+            (2 Hours 30 Min)
+          {% elif type.duration == 240 %}   
+            (3 Hours)
+          {% endif %}
+      </button>
     </div><br>
   {% endfor %}
 </div>
@@ -215,6 +230,7 @@
   </div> <!-- /row -->
 </div>
 
+<!-- Confirmation Modal -->
 <div class="modal fade" id="confirmInfo">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -227,79 +243,29 @@
       
       <!-- Modal body -->
       <div class="modal-body">
-        <strong>Start Time:</strong> <span id="appointmentTime"></span><br>
-        <strong>Date:</strong> <span id="appointmentDate"></span><br>
-        <strong>Start Iteration:</strong> <span id="appointmentStart"></span><br>
-        <strong>Duration:</strong> <span id="appointmentDuration"></span><br>
+        <strong>Appointment Date:</strong> <span id="appointmentDate"></span><br>
+        <strong>Appointment Start Time:</strong> <span id="appointmentTime"></span><br>
+        <span id="appointmentStart" style="display:none"></span>
+        <span id="appointmentDuration" style="display:none"></span>
+        <form method="post">
+        {% csrf_token %}
+        <div id="finalForm">
+          <input type="hidden" name="date" value="" />
+          <input type="hidden" name="starttime" value="" />
+          <input type="hidden" name="endtime" value="" />
+          <input type="hidden" name="duration" value="" />
+        </div>
       </div>
 
       <!-- Modal footer --> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="#">
-          <button type="button" class="btn btn-primary" id="finalSubmit">Save changes</button>
-        </a>
-      </div>  
+        <button type="submit" class="btn btn-info">Save changes</button>
+      </div>
+      </form>  
     </div>
   </div>
 </div>
-<!-- Appointment Info Modal --
-<div class="modal fade" id="appointmentInfo">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    
-      <!-- Modal Header --
-      <div class="modal-header">
-        <h4 class="modal-title">Enter Appointment Information</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      
-      <!-- Modal body --
-      <div class="modal-body">
-        <form class="form-horizontal">
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="usr">Name:</label>
-            <div class="col-lg-10">
-              <input type="text" class="form-control" id="usr" placeholder="Enter Full Name">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="phone">Phone:</label>
-            <div class="col-lg-10">
-              <input type="tel" class="form-control" id="phone" placeholder="###-###-####">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="email">Email:</label>
-            <div class="col-lg-10">
-              <input type="email" class="form-control" id="email" placeholder="Enter email">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="pwd">Password:</label>
-            <div class="col-lg-10"> 
-              <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="notes">Notes:</label>
-            <div class="col-lg-10">
-              <textarea class="form-control" rows="5" id="notes"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="offset-4 col-4">
-              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" id="scheduleButton" data-dismiss="modal">
-                Submit
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>   
-    </div>
-  </div> 
-</div> -->
-
 
 
 <script>
@@ -321,6 +287,7 @@ $(".newStart").click(function() {
   //var beginTime = $("#startHour").val();
   var hour = $("#startHour").children("input[name='start-hour']").val();
   var minute = $("#startHour").children("input[name='start-minute']").val();
+  var duration = $("#appointmentDuration").text();
   adjust = parseInt(iteration);
   hour = (hour - 1) + (adjust*.5);
   thirty = adjust % 2;
@@ -331,20 +298,19 @@ $(".newStart").click(function() {
   else {
     minute = 3;
   }
-  var beginTime = hour +":"+minute+"0";
+  var adjust2 = (parseInt(duration) / 40);
+
+  var beginTime = hour + ":" + minute + "0";
+  var endTime = (parseInt(hour) + 1) + ":" + minute + "0";
   $("#appointmentTime").html(beginTime);
   $("#appointmentStart").html(iteration);
   $("#appointmentDate").html(aDate);
-});
+  $("#finalForm").children("input[name='date']").val(aDate);
+  $("#finalForm").children("input[name='starttime']").val(beginTime);
+  $("#finalForm").children("input[name='endtime']").val(endTime);
+  $("#finalForm").children("input[name='duration']").val(duration);
 
-$("#finalSubmit").click(function() {
-  finalTime = $("#appointmentTime").text();
-  finalDate = $("#appointmentDate").text();
-  finalDuration = $("#appointmentDuration").text();
-  employee = 4
-  temp = parseInt(employee)
-  url = "{% url 'Appointment Info' id=id value=80 %}"
-  window.location = url;
+
 });
 
 </script>

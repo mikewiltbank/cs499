@@ -18,3 +18,12 @@ class NewAppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointments
         fields = ('name', 'phone', 'email', 'details')
+        
+class NewTimeForm(forms.ModelForm):
+    date = forms.DateField()
+    starttime = forms.TimeField()
+    endtime = forms.TimeField()
+    duration = forms.IntegerField()
+    class Meta:
+        model = Appointments
+        fields = ('date', 'starttime', 'endtime', 'duration')
