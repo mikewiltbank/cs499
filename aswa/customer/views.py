@@ -12,14 +12,18 @@ def start(request):
     employees = Employees.objects.values('id', 'full_name')
     return render(request, 'customer/customerstart.html', {'employees': employees})
 
-
-def calendarView(request, id):
+def getType(request, id):
     today = datetime.today()
+    types = AppointmentTypes.objects.filter(employee_id=id)
+    return render(request, 'customer/gettype.html', {'id':id, 'today':today, 'types':types })
+
+def calendarView(request, id, duration, weekstart):
+    today = datetime.strptime(weekstart , '%Y-%m-%d')
     adjust = (today.weekday() + 1) % 7
-    sunday = today - timedelta(days=adjust)
-    days = [sunday]
-    for i in range(1,90):
-        days.append(sunday + (timedelta(days=i)))
+    saturday = (today - timedelta(days=adjust)) - timedelta(days=1)
+    days = [saturday]
+    for i in range(1,9):
+        days.append(saturday + (timedelta(days=i)))
     start = Employees.objects.get(id=id).starttime
     end = Employees.objects.get(id=id).endtime
     temp = datetime.now()
@@ -41,49 +45,49 @@ def calendarView(request, id):
     fri = []
     sat = []
     for appointment in appointments:
-        if appointment.date.strftime('%Y-%m-%d') == days[0].strftime('%Y-%m-%d') :
-            if appointment.starttime.minute == 30:
-                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
-            else:
-                aBegin = (appointment.starttime.hour - start.hour)*80
-            setattr(appointment, 'aBegin', aBegin)
-            sun.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[1].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            mon.append(appointment)
+            sun.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[2].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            tue.append(appointment)
+            mon.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[3].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            wed.append(appointment)
+            tue.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[4].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            thur.append(appointment)
+            wed.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[5].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            fri.append(appointment)
+            thur.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[6].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            fri.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[7].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
@@ -101,10 +105,9 @@ def calendarView(request, id):
             return redirect('Appointment Info', id=id)
         else:
             form = NewTimeForm()
-    return render(request, 'customer/scheduleView.html', {'types': types, 'days': days, 'times':times, 
+    return render(request, 'customer/scheduleView.html', {'id':id, 'types': types, 'dur':duration, 'days': days, 'times':times, 
                                                           'grid':grid, 'sun':sun, 'mon':mon, 'tue':tue,
                                                           'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
-
 
 def appointmentInfo(request, id):     
     if request.method == 'POST':

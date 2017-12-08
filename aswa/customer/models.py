@@ -2,9 +2,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 from employee.models import Employees
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.forms import ModelForm
 # Create your models here.
 
 class Appointments(models.Model):

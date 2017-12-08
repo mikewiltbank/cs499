@@ -1,0 +1,29 @@
+{% extends "customer/base.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+<h4 class="text-center">Select an Appointment Type</h4>
+{% for type in types %}
+  <div class="offset-lg-3 col-lg-6 offset-md-1 col-md-10 aTypes">
+    <a href="{% url 'Calendar View' id=id duration=type.duration weekstart=today|date:'Y-m-d' %}">
+    <button type="button" class="btn btn-info btn-lg btn-block">
+      {{ type.name }}
+        {% if type.duration == 40 %}  
+          (30 Minutes)
+        {% elif type.duration == 80 %}  
+          (1 Hour)
+        {% elif type.duration == 120 %}   
+          (1 Hour 30 Min)
+        {% elif type.duration == 160 %}   
+          (2 Hours)
+        {% elif type.duration == 200 %}   
+          (2 Hours 30 Min)
+        {% elif type.duration == 240 %}   
+          (3 Hours)
+        {% endif %}
+    </button>
+    </a>
+  </div><br>
+{% endfor %}
+
+{% endblock %}
