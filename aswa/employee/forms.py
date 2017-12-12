@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 #from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import RadioSelect
+from customer.models import Appointments
 
 class NewEmployeeForm(UserCreationForm):
     full_name = forms.CharField(max_length=200, required=True, help_text='Full Name')
@@ -13,7 +14,13 @@ class NewEmployeeForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'full_name', 'email', 'password1', 'password2', )
-        
+
+class AppointmentDeleteForm(forms.ModelForm):
+    date = forms.DateField()
+    email = forms.TimeField()
+    class Meta:
+        model = Appointments
+        fields = ('date', 'email')        
 
 RADIO_DURATIONS = [['1','30 min'],['2','1 hr'],['3','1 hr 30 min'], ['4','2 hr']]
 

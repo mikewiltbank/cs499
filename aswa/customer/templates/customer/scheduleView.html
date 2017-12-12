@@ -154,7 +154,7 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.5|date:'Y' }}-{{ days.5|date:'m' }}-{{ days.5|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.5|date:'Y-m-d' }}" />
                       </tr>
                     {% endfor %}
                   </table>

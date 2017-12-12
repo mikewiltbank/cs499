@@ -9,7 +9,7 @@ class NewAppointmentForm(forms.ModelForm):
     phone = forms.CharField(max_length=12, required=True, help_text= '###-###-####')
     email = forms.CharField(max_length=200, required=True, help_text= 'example@email.com')
     #password = forms.CharField(max_length=128, widget=forms.PasswordInput, required=False, help_text='For Deleting (Optional)')
-    details = forms.CharField(max_length=200, widget=forms.Textarea)
+    details = forms.CharField(max_length=200, widget=forms.Textarea(attrs={'rows':4}))
     #date = forms.DateField(widget=SelectDateWidget(years=YEAR_CHOICES))
     #date = forms.DateField()
     #starttime= forms.TimeField()

@@ -7,12 +7,13 @@ from datetime import datetime, timedelta
 from customer.models import Appointments
 from employee.models import AppointmentTypes
 
-from employee.forms import NewEmployeeForm
+from employee.forms import NewEmployeeForm, AppointmentDeleteForm
 
 def newEmployee(request):
     if request.method == 'POST':
         form = NewEmployeeForm(request.POST)
         if form.is_valid():
+            today = datetime.today()
             user = form.save()
             user.refresh_from_db()  # load the user instance created by the signal
             user.employees.full_name = form.cleaned_data.get('full_name')
@@ -21,19 +22,24 @@ def newEmployee(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('Tools')
+            return redirect('Tools', weekstart=today)
     else:
         form = NewEmployeeForm()
     return render(request, 'employee/newemployee.html', {'form': form})
 
 @login_required
-def tools(request):
-    today = datetime.today()
+def welcome(request):
+    today = datetime.today().strftime('%Y-%m-%d')
+    return redirect('Tools', weekstart=today)
+
+@login_required
+def tools(request, weekstart):
+    today = datetime.strptime(weekstart , '%Y-%m-%d')
     adjust = (today.weekday() + 1) % 7
-    sun = today - timedelta(days=adjust)
-    days = [sun]
-    for i in range(1,90):
-        days.append(sun + (timedelta(days=i)))
+    saturday = (today - timedelta(days=adjust)) - timedelta(days=1)
+    days = [saturday]
+    for i in range(1,9):
+        days.append(saturday + (timedelta(days=i)))
     start = None
     if request.user.is_authenticated():
         start = request.user.employees.starttime
@@ -59,54 +65,63 @@ def tools(request):
     fri = []
     sat = []
     for appointment in appointments:
-        if appointment.date.strftime('%Y-%m-%d') == days[0].strftime('%Y-%m-%d') :
-            if appointment.starttime.minute == 30:
-                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
-            else:
-                aBegin = (appointment.starttime.hour - start.hour)*80
-            setattr(appointment, 'aBegin', aBegin)
-            sun.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[1].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            mon.append(appointment)
+            sun.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[2].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            tue.append(appointment)
+            mon.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[3].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            wed.append(appointment)
+            tue.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[4].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            thur.append(appointment)
+            wed.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[5].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            fri.append(appointment)
+            thur.append(appointment)
         if appointment.date.strftime('%Y-%m-%d') == days[6].strftime('%Y-%m-%d') :
             if appointment.starttime.minute == 30:
                 aBegin = ((appointment.starttime.hour - start.hour)*80)+40
             else:
                 aBegin = (appointment.starttime.hour - start.hour)*80
             setattr(appointment, 'aBegin', aBegin)
-            sat.append(appointment)        
+            fri.append(appointment)
+        if appointment.date.strftime('%Y-%m-%d') == days[7].strftime('%Y-%m-%d') :
+            if appointment.starttime.minute == 30:
+                aBegin = ((appointment.starttime.hour - start.hour)*80)+40
+            else:
+                aBegin = (appointment.starttime.hour - start.hour)*80
+            setattr(appointment, 'aBegin', aBegin)
+            sat.append(appointment)
+    if request.method == 'POST':
+        if request.POST['form-type'] == "appointmentDelete": # test the form type
+            aEmail = request.POST['email']
+            aDate = request.POST['date']
+            Appointments.objects.get(date=aDate, email=aEmail).delete()
+            return redirect('Tools', weekstart=aDate )
+        elif request.POST['form-type'] == "startEndTime":
+            return redirect('Welcome')
+        
     return render(request, 'employee/tools.html', {'types':types, 'days': days, 'times':times, 'grid':grid,'sun':sun, 
                                                    'mon':mon, 'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})

@@ -125,9 +125,14 @@ def appointmentInfo(request, id):
             appointments.endtime = aEndtime
             appointments.duration = aDuration
             appointments.save()
-            return redirect('Start')
-    
+            return redirect('Success', date=aDate, start=aStarttime)    
         return render(request, 'customer/appointmentInfo.html')
     else:
         form = NewAppointmentForm()
     return render(request, 'customer/appointmentInfo.html', {'form': form})
+
+def success(request, date, start):
+    tempday = datetime.strptime(date, '%Y-%m-%d')
+    temptime = datetime.strptime(start, '%H:%M')
+    aDate = datetime.combine(tempday.date(), temptime.time())
+    return render(request, 'customer/success.html', {'date':aDate})

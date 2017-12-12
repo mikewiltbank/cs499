@@ -28,22 +28,24 @@
       {% endif %}
 
       {% for field in form.visible_fields %}
-        <div class="form-group">
-          {{ field.label_tag }}
+        <div class="form-group row">
+          <div class="col-lg-2">
+            {{ field.label_tag }}
+          </div>
 
           {% if form.is_bound %}
             {% if field.errors %}
-              {% render_field field class="form-control is-invalid" %}
+              {% render_field field class="form-control is-invalid col-lg-10" %}
               {% for error in field.errors %}
                 <div class="invalid-feedback">
                   {{ error }}
                 </div>
               {% endfor %}
             {% else %}
-              {% render_field field class="form-control is-valid" %}
+              {% render_field field class="form-control is-valid col-lg-10" %}
             {% endif %}
           {% else %}
-            {% render_field field class="form-control" %}
+            {% render_field field class="form-control col-lg-10" %}
           {% endif %}
         </div>
       {% endfor %}
