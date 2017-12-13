@@ -5,27 +5,24 @@ from customer.models import Appointments
 from datetime import datetime, timedelta
 
 # Create your views here.
-def customerBase(request):
-    return render(request, 'customer/base.html')
-
 def start(request):
     employees = Employees.objects.values('id', 'full_name')
     return render(request, 'customer/customerstart.html', {'employees': employees})
 
-def getType(request, id):
+def getType(request, eid):
     today = datetime.today()
-    types = AppointmentTypes.objects.filter(employee_id=id)
-    return render(request, 'customer/gettype.html', {'id':id, 'today':today, 'types':types })
+    types = AppointmentTypes.objects.filter(employee_id=eid)
+    return render(request, 'customer/gettype.html', {'eid':eid, 'today':today, 'types':types })
 
-def calendarView(request, id, duration, weekstart):
+def calendarView(request, eid, duration, weekstart):
     today = datetime.strptime(weekstart , '%Y-%m-%d')
     adjust = (today.weekday() + 1) % 7
     saturday = (today - timedelta(days=adjust)) - timedelta(days=1)
     days = [saturday]
     for i in range(1,9):
         days.append(saturday + (timedelta(days=i)))
-    start = Employees.objects.get(id=id).starttime
-    end = Employees.objects.get(id=id).endtime
+    start = Employees.objects.get(id=eid).starttime
+    end = Employees.objects.get(id=eid).endtime
     temp = datetime.now()
     times = []
     newtime = datetime.combine(temp.date(),start)
@@ -35,8 +32,8 @@ def calendarView(request, id, duration, weekstart):
         b = timedelta(hours=0, minutes=30)
         newtime += b
         times.append(newtime.time())
-    types = AppointmentTypes.objects.filter(employee_id=id)
-    appointments = Appointments.objects.filter(employee_id=id)
+    types = AppointmentTypes.objects.filter(employee_id=eid)
+    appointments = Appointments.objects.filter(employee_id=eid)
     sun = []
     mon = []
     tue = []
@@ -97,21 +94,31 @@ def calendarView(request, id, duration, weekstart):
     if request.method == 'POST':
         form = NewTimeForm(request.POST)
         if form.is_valid():
-            appointments = form.save(commit=False)            
-            request.session['date'] = form.cleaned_data['date'].strftime('%Y-%m-%d')
+            appointments = form.save(commit=False)
+            aDate = form.cleaned_data['date'].strftime('%Y-%m-%d')
+            aEndTime = form.cleaned_data['endtime'].strftime('%H:%M')
+            request.session['date'] = aDate
             request.session['startTime'] = form.cleaned_data['starttime'].strftime('%H:%M')
-            request.session['endTime'] = form.cleaned_data['endtime'].strftime('%H:%M')
+            request.session['endTime'] = aEndTime
             request.session['duration'] = form.cleaned_data['duration']
-            return redirect('Appointment Info', id=id)
+            '''
+            conflicts = Appointments.objects.filter(employee_id=id)
+            #if authenticate(username=user.username, password=raw_password)
+            for compare in conflicts:
+                if compare.date.strftime('%Y-%m-%d') == aDate:
+                    if compare.starttime.strftime('%H:%M') <= aEndTime <= compare.endtime.strftime('%H:%M'):
+                        return redirect('login')
+            '''
+            return redirect('Appointment Info', eid=eid)
         else:
             form = NewTimeForm()
-    return render(request, 'customer/scheduleView.html', {'id':id, 'types': types, 'dur':duration, 'days': days, 'times':times, 
-                                                          'grid':grid, 'sun':sun, 'mon':mon, 'tue':tue,
-                                                          'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
+    return render(request, 'customer/scheduleView.html', {'eid':eid, 'types': types, 'dur':duration, 'days': days, 
+                                                          'times':times, 'grid':grid, 'sun':sun, 'mon':mon, 
+                                                          'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
 
-def appointmentInfo(request, id):     
+def appointmentInfo(request, eid):     
     if request.method == 'POST':
-        who = Employees.objects.get(id=id)
+        who = Employees.objects.get(id=eid)
         aDate = request.session['date']
         aStarttime = request.session['startTime']
         aEndtime = request.session['endTime'] 

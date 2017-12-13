@@ -1,6 +1,7 @@
 {% extends "employee/base.html" %}
 
 {% block body %}
+{% load widget_tweaks %}
 <div class="row">
 	<div class="col-lg-4">
 	  <div class="card" style="max-height: 480px; overflow-y:scroll;">
@@ -9,13 +10,13 @@
 	    </div>
 	    <div class="card-body">
 	      <p class="card-text">
-	        <strong>Name:</strong> <span id="customerName"></span><br>
-	        <strong>Phone:</strong> <span id="customerPhone"></span><br>
-	        <strong>Email:</strong> <span id="customerEmail"></span><br>
+	        <strong>Name:</strong> <span id="customerName"><i>None Selected</i></span><br>
+	        <strong>Phone:</strong> <span id="customerPhone"><i>None Selected</i></span><br>
+	        <strong>Email:</strong> <span id="customerEmail"><i>None Selected</i></span><br>
 	      </p>
 	      <p>
 	        <div class="text-center"><strong><u>Notes</u></strong></div>
-	        <span id="customerDetails"></span>
+	        <span id="customerDetails"><i>None Selected</i></span>
 	      </p>
 	      <div class="offset-xl-3 offset-lg-2 offset-4">
 	      	<button type="button" class="btn btn-info btn-primary" data-toggle="modal" data-target="#confirmDelete">
@@ -268,7 +269,7 @@
 	      </div>
 	  </div>
 	  <div class="offset-xl-5 offset-lg-4 offset-5">
-	    <a href="{% url 'Get Type' id=user.employees.id %}" class="btn btn-info btn-primary">Schedule Appointment</a>
+	    <a href="{% url 'Get Type' eid=user.employees.id %}" class="btn btn-info btn-primary">Schedule Appointment</a>
 	  </div>
 	  </div>
 	</div>
@@ -354,49 +355,53 @@
 		            {% elif type.duration == 240 %}   
 		              <td>3 Hours</td>
 		            {% endif %}
-		              <td><button type="button">&times;</button></td>
+		              <td><a href="{% url 'Drop Type' typeid=type.id %}"> <button type="button">&times;</button></a></td>
 		            </tr>
 		          {% endfor %}
 		        </tbody>
 		      </table>
 
-			  <form class="form-horizontal">
+			  <form class="form-horizontal" method="POST">
+			  	{% csrf_token %}
+			  	<input type="hidden" name="form-type" value="appointmentTypes" />
 			    <div class="form-group row">
 			      <label class="col-form-label col-lg-2" for="usr">Name:</label>
 			      <div class="col-lg-10">
-			        <input type="text" class="form-control" id="usr" placeholder="Appointment Name">
+			        <input type="text" class="form-control" name="typeName" placeholder="Appointment Name">
 			      </div>
 			    </div>
 			    <label class="radio-inline" style="margin-left: 45px; margin-right: 40px;">
-			      <input type="radio" name="optradio"> 30 Minutes
+			      <input type="radio" name="optradio" value="40"> 30 Minutes
 			    </label>
 			    <label class="radio-inline" style="margin-right: 40px">
-			      <input type="radio" name="optradio"> 1 Hour
+			      <input type="radio" name="optradio" value="80"> 1 Hour
 			    </label>
 			    <label class="radio-inline" style="margin-right: 40px">
-			      <input type="radio" name="optradio"> 1 1/2 Hours
+			      <input type="radio" name="optradio" value="120"> 1 1/2 Hours
 			    </label><br>
 			    <label class="radio-inline" style="margin-left: 45px; margin-right: 45px;">
-			      <input type="radio" name="optradio"> 2 Hours
+			      <input type="radio" name="optradio" value="160"> 2 Hours
 			    </label>
 			    <label class="radio-inline" style="margin-right: 45px">
-			      <input type="radio" name="optradio"> 2 1/2 Hours
+			      <input type="radio" name="optradio" value="200"> 2 1/2 Hours
 			    </label>
 			    <label class="radio-inline">
-			      <input type="radio" name="optradio"> 3 Hours
+			      <input type="radio" name="optradio" value="240"> 3 Hours
 			    </label>
-			    <div class="form-group row">
+			    <!--<div class="form-group row">
 			      <div class="offset-4 col-4">
-			        <button type="button" class="btn btn-info btn-lg btn-block">Add New</button>
+			        <button type="submit" class="btn btn-info btn-lg btn-block">Add New</button>
 			      </div>
 			    </div>
-			  </form>
+			  </form>-->
 		  </div>
 
-	      <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>   
+	      <!-- Modal footer --> 
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-info">Add New Appointment Type</button>
+	      </div>
+	      </form>   
 	    </div>
 	  </div>
 	</div>
@@ -410,39 +415,6 @@
 	      <div class="media">
 	        <div class="media-body">
 	          <div class="row">
-	            <div class="col-3">
-	              <strong>Available days</strong><br>
-	              <form>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Sunday" checked>
-	                  Sunday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Monday" checked>
-	                  Monday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Tuesday" checked>
-	                  Tuesday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Wednesday" checked>
-	                  Wednesday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Thursday" checked>
-	                  Thursday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Friday" checked>
-	                  Friday
-	                </label>
-	                <label class="form-check-label">
-	                  <input class="form-check-input" type="checkbox" value="Saturday" checked>
-	                  Saturday
-	                </label>
-	              </form>
-	            </div>
 	            <div class="col-9">
 	              <div class="text-left">
 	                <div class="row">
@@ -472,10 +444,59 @@
 	                <div class="row">
 	                  <div class="col-2"></div>
 	                  <div class="col-8">
-	                    <button type="button" class="btn btn-info btn-sm btn-block">Add Custom</button><br>
+	                    <button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#customUnavailable">Add Custom</button><br>
 	                  </div>
 	                </div>
 	              </div>
+	            </div>
+	            <div class="col-3">
+	              <strong>Available days</strong><br>
+	              <form>
+	       	        {% csrf_token %}
+          			<input type="hidden" name="form-type" value="updateDays" />
+          			{% for field in daysForm.visible_fields %}
+			            {{ field.label_tag }}
+			          	{{ field }}<br>
+          			{% endfor %}
+          			<!--
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="sun" value="True" checked>
+	                  Sunday
+	                  <input type='hidden' id='sunHidden' name='sun' id="sun" value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="mon" id="mon" value="True" checked>
+	                  Monday
+	                  <input type='hidden' id='monHidden' name='mon' value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="tue" id="tue" value="True" checked>
+	                  Tuesday
+	                  <input type='hidden' id='tueHidden' name='tue' value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="wed" id="wed" value="True" checked>
+	                  Wednesday
+	                  <input type='hidden' id='wedHidden' name='wed' value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="thur" id="thur" value="True" checked>
+	                  Thursday
+	                  <input type='hidden' id='thurHidden' name='thur' value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="fri" id="fri" value="True" checked>
+	                  Friday
+	                  <input type='hidden' id='friHidden' name='fri' value='False'>
+	                </label>
+	                <label class="form-check-label">
+	                  <input class="form-check-input" type="checkbox" name="sat" id="sat" value="True" checked>
+	                  Saturday
+	                  <input type='hidden' id='satHidden' name='sat' value='False'>
+	                </label>
+	                -->
+	                <button type="submit" class="btn btn-info btn-sm btn-block">Update Days</button><br>
+	              </form>
 	            </div>
 	          </div><!-- /row -->
 	        </div>
@@ -502,15 +523,15 @@
         {% csrf_token %}
           <input type="hidden" name="form-type" value="startEndTime" />
         <div class="form-group row">
-	      <label class="col-form-label col-lg-3" for="usr">Open Time:</label>
+	      <label class="col-form-label col-lg-3" for="startDay">Open Time:</label>
 	      <div class="col-lg-9">
-	        <input type="text" class="form-control" id="usr" placeholder="8:00">
+	        <input type="text" class="form-control" name="startDay" placeholder="8:00">
 	      </div>
 	    </div>
 	    <div class="form-group row">
-	      <label class="col-form-label col-lg-3" for="usr">Close Time:</label>
+	      <label class="col-form-label col-lg-3" for="endDay">Close Time:</label>
 	      <div class="col-lg-9">
-	        <input type="text" class="form-control" id="usr" placeholder="17:00">
+	        <input type="text" class="form-control" name="endDay" placeholder="17:00">
 	      </div>
 	    </div>
       </div>  
@@ -596,8 +617,99 @@
   </div>
 </div>
 
-<script>
+<!-- Custom Unavailable Times Modal -->
+<div class="modal fade" id="customUnavailable">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Custom Unavailable Time</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+	  <div class="modal-body">
 
+
+	  	<form method="POST" class="form-horizontal">
+	    {% csrf_token %}
+	    <input type="hidden" name="form-type" value="customUnavailable" />
+	      {% for hidden_field in form.hidden_fields %}
+	        {{ hidden_field }}
+	      {% endfor %}
+
+	      {% if form.non_field_errors %}
+	        <div class="alert alert-danger" role="alert">
+	          {% for error in form.non_field_errors %}
+	            {{ error }}
+	          {% endfor %}
+	        </div>
+	      {% endif %}
+
+	      {% for field in form.visible_fields %}
+	        <div class="form-group row">
+	          <div class="col-3">
+	            {{ field.label_tag }}
+	          </div>
+
+	          {% if form.is_bound %}
+	            {% if field.errors %}
+	              {% render_field field class="form-control is-invalid col-8" %}
+	              {% for error in field.errors %}
+	                <div class="invalid-feedback">
+	                  {{ error }}
+	                </div>
+	              {% endfor %}
+	            {% else %}
+	              {% render_field field class="form-control is-valid col-3" %}
+	            {% endif %}
+	          {% else %}
+	          	{% render_field field class="form-control col-3" %}
+	          {% endif %}
+
+			{% if field.help_text %}
+		      <small class="form-text text-muted" style="margin-left: 20px">{{ field.help_text }}</small>
+		    {% endif %}
+	        </div>
+	      {% endfor %}
+	  </div>
+
+      <!-- Modal footer --> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info">Submit</button>
+      </div>
+      </form>   
+    </div>
+  </div>
+</div>
+
+
+<script>
+/*
+if ($("#sun").checked) {
+	$("#sunHidden").disabled = true;
+} 
+if ($("#mon").checked) {
+	$("#monHidden").disabled = true;
+} 
+if ($("#tue").checked) {
+	$("#tueHidden").disabled = true;
+} 
+if ($("#wed").checked) {
+	$("#wedHidden").disabled = true;
+} 
+if ($("#thur").checked) {
+	$("#thurHidden").disabled = true;
+} 
+if ($("#fri").checked) {
+	$("#friHidden").disabled = true;
+} 
+if ($("#sat").checked) {
+	$("#satHidden").disabled = true;
+} 
+*/
 $(".appointment").click(function() {
 	//alert($('input[name=data-name]').val());
     var name = $(this).children("input[name='data-name']").val();
@@ -614,7 +726,6 @@ $(".appointment").click(function() {
     $("#viewerSelectEmail").html(email);
     $("#deleteForm").children("input[name='date']").val(date);
     $("#deleteForm").children("input[name='email']").val(email);
-
 });
 
 $(document).ready(function(){

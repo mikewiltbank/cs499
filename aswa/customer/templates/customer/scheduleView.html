@@ -10,8 +10,8 @@
     <!-- Calendar View -->
     <div class="col-lg-10 no_padding">
       <div class="container alt-grid">
-      <a href="{% url 'Calendar View' id=id duration=dur weekstart=days.8|date:'Y-m-d' %}"><h2 style="float:right">></h2></a>
-      <a href="{% url 'Calendar View' id=id duration=dur weekstart=days.0|date:'Y-m-d' %}"><h2 style="float:left"><</h2></a>
+      <a href="{% url 'Calendar View' eid=eid duration=dur weekstart=days.8|date:'Y-m-d' %}"><h2 style="float:right">></h2></a>
+      <a href="{% url 'Calendar View' eid=eid duration=dur weekstart=days.0|date:'Y-m-d' %}"><h2 style="float:left"><</h2></a>
       <h2 class="text-center">{{ days.1|date:"F"}}</h2>
       <div class="row">
         <div class="col-3 no_padding">
@@ -78,7 +78,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.1|date:'Y' }}-{{ days.1|date:'m' }}-{{ days.1|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.1|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.1|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -100,7 +101,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.2|date:'Y' }}-{{ days.2|date:'m' }}-{{ days.2|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.2|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.2|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -118,7 +120,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.3|date:'Y' }}-{{ days.3|date:'m' }}-{{ days.3|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.3|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.3|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -136,7 +139,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.4|date:'Y' }}-{{ days.4|date:'m' }}-{{ days.4|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.4|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.4|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -155,6 +159,7 @@
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
                         <input type="hidden" name="date" value="{{ days.5|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.5|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -172,7 +177,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.6|date:'Y' }}-{{ days.6|date:'m' }}-{{ days.6|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.6|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.6|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -190,7 +196,8 @@
                       <tr class="blank_row newStart" data-toggle="modal" data-target="#confirmInfo">
                         <td></td>
                         <input type="hidden" name="count" value="{{ forloop.counter }}" />
-                        <input type="hidden" name="date" value="{{ days.7|date:'Y' }}-{{ days.7|date:'m' }}-{{ days.7|date:'d' }}" />
+                        <input type="hidden" name="date" value="{{ days.7|date:'Y-m-d' }}" />
+                        <input type="hidden" name="printDate" value="{{ days.7|date:'l M d, Y' }}" />
                       </tr>
                     {% endfor %}
                   </table>
@@ -211,15 +218,15 @@
     <div class="modal-content">
     
       <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title text-center">Confirm</h4>
+      <div class="modal-header commitInfo">
+        <h4 class="modal-title text-center">Confirm Selection</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       
       <!-- Modal body -->
       <div class="modal-body">
-        <strong>Appointment Date:</strong> <span id="appointmentDate"></span><br>
-        <strong>Appointment Start Time:</strong> <span id="appointmentTime"></span><br>
+        <span id="appointmentDate"></span><br>
+        <span id="appointmentTime"></span><br>
 
         <form method="post">
         {% csrf_token %}
@@ -234,7 +241,7 @@
       <!-- Modal footer --> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info">Commit</button>
+        <button type="submit" class="btn btn-info commitInfo">Commit</button>
       </div>
       </form>  
     </div>
@@ -248,7 +255,7 @@ $(".newStart").click(function() {
   //alert($(this).children("input[name='day']").val());
   var iteration = $(this).children("input[name='count']").val();
   var aDate = $(this).children("input[name='date']").val();
-  //var beginTime = $("#startHour").val();
+  var printDate = $(this).children("input[name='printDate']").val();
   var hour = $("#startHour").children("input[name='start-hour']").val();
   var minute = $("#startHour").children("input[name='start-minute']").val();
   var duration = {{ dur }}//$("#appointmentDuration").text();
@@ -263,6 +270,18 @@ $(".newStart").click(function() {
     minute = 3;
   }
   var beginTime = hour + ":" + minute + "0";
+  if (parseInt(hour) >= 12) {
+    if (hour == 12) {
+      var printTime = hour + ":" + minute + "0 PM";
+    }
+    else {
+      var printTime = parseInt(hour) - 12 + ":" + minute + "0 PM";
+    }
+  }
+  else {
+    var printTime = hour + ":" + minute + "0 AM";
+  }
+
   var adjustMinute = (parseInt(duration) / 40) % 2;
   var adjustHour =  (parseInt(duration)) / 80;
   if (adjustMinute != 0) {
@@ -276,11 +295,102 @@ $(".newStart").click(function() {
   }
   hour = parseInt(hour) + parseInt(adjustHour);
   var endTime = hour + ":" + minute + "0";
-  $("#appointmentTime").html(beginTime);
-  $("#appointmentDate").html(aDate);
+  $("#appointmentTime").html("Appointment Time: <strong>" + printTime + "</strong>");
+  $("#appointmentDate").html("Appointment Date: <strong>" + printDate + "</strong>");
   $("#finalForm").children("input[name='date']").val(aDate);
   $("#finalForm").children("input[name='starttime']").val(beginTime);
   $("#finalForm").children("input[name='endtime']").val(endTime);
+  $(".commitInfo").show();
+  ready = true;
+  if ("{{ days.1|date:'Y-m-d' }}" == aDate) {
+    {% for x in sun %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.2|date:'Y-m-d' }}" == aDate) {
+    {% for x in mon %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.3|date:'Y-m-d' }}" == aDate) {
+    {% for x in tue %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.4|date:'Y-m-d' }}" == aDate) {
+    {% for x in wed %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.5|date:'Y-m-d' }}" == aDate) {
+    {% for x in thur %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.6|date:'Y-m-d' }}" == aDate) {
+    {% for x in fri %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if ("{{ days.7|date:'Y-m-d' }}" == aDate) {
+    {% for x in sat %}
+      if( parseInt("{{ x.starttime|time:'H' }}") <= hour && hour <= parseInt("{{ x.endtime|time:'H' }}")) {
+        if( "{{ x.starttime|time:'H' }}" == hour &&  parseInt(minute + "0") <= parseInt("{{ x.starttime|time:'i' }}")) {
+          // Do nothing
+        }
+        else {
+          ready = false;
+        }
+      }
+    {% endfor %}
+  }
+  if (!ready) {
+    $("#appointmentDate").html("<div class='text-center' style='color:red; font-weight:bold;'>Appointment End Time Conflicts!</div>");
+    $("#appointmentTime").html("Choose a new start time or choose a new appointment type.");
+    $(".commitInfo").hide();
+  }
 
 });
 

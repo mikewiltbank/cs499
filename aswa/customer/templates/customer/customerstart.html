@@ -29,7 +29,7 @@
           {% for i in employees%}
             {% if i.full_name %}
               <div class="offset-2 col-8">
-                <a href="{% url 'Get Type' id=i.id %}"><button type="submit" class="btn btn-info btn-lg btn-block">{{ i.full_name }}</button></a>
+                <a href="{% url 'Get Type' eid=i.id %}"><button type="submit" class="btn btn-info btn-lg btn-block">{{ i.full_name }}</button></a>
               </div><br>
             {% endif %}
           {% endfor %}

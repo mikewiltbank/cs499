@@ -1,13 +1,10 @@
-#from employee.models import Employees
-#from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from customer.models import Appointments
-from employee.models import AppointmentTypes
-
-from employee.forms import NewEmployeeForm, AppointmentDeleteForm
+from employee.models import AppointmentTypes, Employees
+from employee.forms import NewEmployeeForm, CustomUnavailableForm, DaysForm
 
 def newEmployee(request):
     if request.method == 'POST':
@@ -34,6 +31,8 @@ def welcome(request):
 
 @login_required
 def tools(request, weekstart):
+    cuForm = CustomUnavailableForm()
+    daysForm = DaysForm()
     today = datetime.strptime(weekstart , '%Y-%m-%d')
     adjust = (today.weekday() + 1) % 7
     saturday = (today - timedelta(days=adjust)) - timedelta(days=1)
@@ -54,7 +53,6 @@ def tools(request, weekstart):
         newtime += b
         times.append(newtime.time())
     eid = request.user.employees.id
-    #appointments = list(Appointments.objects.filter(employee_id=eid))
     appointments = Appointments.objects.filter(employee_id=eid)
     types = AppointmentTypes.objects.filter(employee_id=eid)
     sun = []
@@ -121,7 +119,78 @@ def tools(request, weekstart):
             Appointments.objects.get(date=aDate, email=aEmail).delete()
             return redirect('Tools', weekstart=aDate )
         elif request.POST['form-type'] == "startEndTime":
+            startDay = request.POST['startDay']
+            endDay = request.POST['endDay']
+            thisEmployee = Employees.objects.get(id=eid)
+            thisEmployee.starttime = startDay
+            thisEmployee.endtime = endDay
+            thisEmployee.save()
+            #typesForm = StartEndForm(request.POST)
+            #if typesForm.is_valid():
+                #appointmentTypes = form.save(commit=False)
+                #aDate = form.cleaned_data['date'].strftime('%Y-%m-%d')
+                #aEndTime = form.cleaned_data['endtime'].strftime('%H:%M')
             return redirect('Welcome')
-        
-    return render(request, 'employee/tools.html', {'types':types, 'days': days, 'times':times, 'grid':grid,'sun':sun, 
-                                                   'mon':mon, 'tue':tue,'wed':wed, 'thur':thur, 'fri':fri, 'sat':sat})
+        elif request.POST['form-type'] == "appointmentTypes":
+            aName = request.POST['typeName']
+            aDuration = request.POST['optradio']
+            update = AppointmentTypes(name=aName, duration=aDuration, employee_id=eid)
+            update.save()
+            #typesForm = AppointmentTypesForm(request.POST)
+            #if typesForm.is_valid():
+            return redirect('Welcome')
+        elif request.POST['form-type'] == "updateDays":
+            day1 = request.POST.get['sun']
+            day2 = request.POST.get['mon']
+            day3 = request.POST['tue']
+            day4 = request.POST['wed']
+            day5 = request.POST['thur']
+            day6 = request.POST['fri']
+            day7 = request.POST['sat']
+            thisEmployee = Employees.objects.get(id=eid)
+            thisEmployee.sun = day1
+            thisEmployee.mon = day2
+            thisEmployee.sun = day3
+            thisEmployee.mon = day4
+            thisEmployee.sun = day5
+            thisEmployee.mon = day6
+            thisEmployee.sun = day7
+            thisEmployee.save()
+            return redirect('login')
+        elif request.POST['form-type'] == "customUnavailable":
+            who = Employees.objects.get(id=eid)
+            #uDate = request.POST.filter['date']
+            sTime = request.POST['starttime']
+            eTime = request.POST['endtime']
+            temp2 = datetime.now()
+            a = datetime.combine(temp2.date(),datetime.strptime(eTime, '%H:%M').time()) - datetime.combine(temp2.date(),datetime.strptime(sTime, '%H:%M').time())
+            durat = (a / timedelta(hours=0, minutes=30)) * 40
+            #datetime.strptime(sTime, '%H:%M')
+            update2 = Appointments(name = "Custom Unavailable", phone = "9999999999", email = "empty@email.com", details = "empty", date = "2017-12-10", starttime = sTime, endtime = eTime, employee = who, duration = durat)
+            update2.save()
+            #return redirect('Welcome')            
+            '''
+            #if cuForm.is_valid():
+            customAppointment = cuForm.save(commit=False)
+            #uDate = form.cleaned_data['date']
+            customAppointment.employee = who
+            customAppointment.name = "Custom Unavailable"
+            customAppointment.phone = "9999999999"
+            customAppointment.email = "empty@email.com"
+            customAppointment.details = "empty"
+            customAppointment.date = "2017-12-12" #form.cleaned_data['date'].strftime('%Y-%m-%d')
+            customAppointment.starttime = "8:00"#form.cleaned_data['starttime'].strftime('%H:%M')
+            customAppointment.endtime = "9:00"#form.cleaned_data['endtime'].strftime('%H:%M')
+            customAppointment.duration = "120"
+            customAppointment.save()
+            '''
+            return redirect('Welcome')
+                #return redirect('Tools', weekstart=uDate)  
+    return render(request, 'employee/tools.html', {'form':cuForm, 'daysForm':daysForm, 'types':types, 'days': days, 'times':times, 'grid':grid,
+                                                   'sun':sun, 'mon':mon, 'tue':tue,'wed':wed, 'thur':thur, 
+                                                   'fri':fri, 'sat':sat })
+    
+def dropType(request, typeid):
+    AppointmentTypes.objects.get(id=typeid).delete()
+    return redirect('Welcome')
+    
